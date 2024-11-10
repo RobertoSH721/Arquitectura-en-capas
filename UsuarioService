@@ -1,0 +1,34 @@
+package com.gosama.negocio;
+
+import com.gosama.datos.UsuarioDAO;
+import com.gosama.entidades.Usuario;
+import java.util.List;
+import javax.ejb.EJB;
+import javax.ejb.Stateless;
+
+@Stateless
+public class UsuarioService {
+
+    @EJB
+    private UsuarioDAO usuarioDAO;
+
+    public List<Usuario> obtenerUsuarios() {
+        return usuarioDAO.obtenerTodos();
+    }
+
+    public void registrarUsuario(Usuario usuario) {
+        usuarioDAO.crear(usuario);
+    }
+
+    public Usuario obtenerUsuarioPorId(int id) {
+        return usuarioDAO.encontrarPorId(id);
+    }
+
+    public void actualizarUsuario(Usuario usuario) {
+        usuarioDAO.actualizar(usuario);
+    }
+
+    public void eliminarUsuario(int id) {
+        usuarioDAO.eliminar(id);
+    }
+}
