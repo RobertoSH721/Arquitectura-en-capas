@@ -1,0 +1,46 @@
+package com.gosama.presentacion;
+
+import com.gosama.negocio.UsuarioService;
+import com.gosama.entidades.Usuario;
+import java.io.IOException;
+import java.util.List;
+import javax.ejb.EJB;
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+@WebServlet("/usuarios")
+public class UsuarioServlet extends HttpServlet {
+
+    @EJB
+    private UsuarioService usuarioService;
+
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        List<Usuario> usuarios = usuarioService.obtenerUsuarios();
+        request.setAttribute("usuarios", usuarios);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("usuarios.jsp");
+        dispatcher.forward(request, response);
+    }
+
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String nombre = request.getParameter("nombre");
+        String apellidos = request.getParameter("apellidos");
+        String numeroTelefono = request.getParameter("numeroTelefono");
+        String correo = request.getParameter("correo");
+        String contrasena = request.getParameter("contrasena");
+
+        Usuario usuario = new Usuario();
+        usuario.setNombre(nombre);
+        usuario.setApellidos(apellidos);
+        usuario.setNumeroTelefono(numeroTelefono);
+        usuario.setCorreo(correo);
+        usuario.setContrasena(contrasena);
+
+        usuarioService.registrarUsuario(usuario);
+
+        response.sendRedirect("usuarios");
+    }
+}
