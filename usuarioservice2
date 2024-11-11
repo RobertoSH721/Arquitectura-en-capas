@@ -1,0 +1,38 @@
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
+public class UserService {
+
+    private Connection connection;
+
+    // Constructor que obtiene la conexión a la base de datos
+    public UserService() {
+        this.connection = DatabaseConnection.getConnection(); // Conexión a la base de datos
+    }
+
+    // Método para registrar al usuario en la base de datos
+    public boolean registerUser(User user) {
+        // Consulta SQL para insertar el usuario en la base de datos
+        String sql = "INSERT INTO users (name, last_name, phone, email, password) VALUES (?, ?, ?, ?, ?)";
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            // Asignar los parámetros de la consulta SQL
+            stmt.setString(1, user.getName());
+            stmt.setString(2, user.getLastName());
+            stmt.setString(3, user.getPhoneNumber());
+            stmt.setString(4, user.getEmail());
+            stmt.setString(5, user.getPassword());  // Recuerda encriptar la contraseña en un proyecto real
+
+            // Ejecutar la consulta de inserción
+            int rowsAffected = stmt.executeUpdate();
+            
+            // Si se insertó al menos un usuario, retorna true
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            // Si ocurre un error, imprime la excepción en los logs
+            e.printStackTrace();
+            return false;  // Si hay un error, retorna false
+        }
+    }
+}
