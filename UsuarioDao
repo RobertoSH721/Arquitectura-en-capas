@@ -1,0 +1,73 @@
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+
+public class UserDAO {
+
+    // Método para registrar un nuevo usuario en la base de datos
+    public boolean createUser(User user) {
+        String query = "INSERT INTO users (name, last_name, phone_number, password, email) VALUES (?, ?, ?, ?, ?)";
+        try (Connection connection = DatabaseConnection.getConnection();
+             PreparedStatement stmt = connection.prepareStatement(query)) {
+
+            stmt.setString(1, user.getName());
+            stmt.setString(2, user.getLastName());
+            stmt.setString(3, user.getPhoneNumber());
+            stmt.setString(4, user.getPassword());
+            stmt.setString(5, user.getEmail());
+
+            return stmt.executeUpdate() > 0; // Si la inserción es exitosa, devuelve true
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false; // En caso de error
+    }
+
+    // Método para obtener un usuario por su ID
+    public User getUserById(int id) {
+        String query = "SELECT * FROM users WHERE id = ?";
+        try (Connection connection = DatabaseConnection.getConnection();
+             PreparedStatement stmt = connection.prepareStatement(query)) {
+
+            stmt.setInt(1, id);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                User user = new User();
+                user.setId(rs.getInt("id"));
+                user.setName(rs.getString("name"));
+                user.setLastName(rs.getString("last_name"));
+                user.setPhoneNumber(rs.getString("phone_number"));
+                user.setPassword(rs.getString("password"));
+                user.setEmail(rs.getString("email"));
+                return user;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null; // Si no se encuentra el usuario
+    }
+
+    // Método para obtener todos los usuarios
+    public List<User> getAllUsers() {
+        List<User> users = new ArrayList<>();
+        String query = "SELECT * FROM users";
+        try (Connection connection = DatabaseConnection.getConnection();
+             PreparedStatement stmt = connection.prepareStatement(query)) {
+
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                User user = new User();
+                user.setId(rs.getInt("id"));
+                user.setName(rs.getString("name"));
+                user.setLastName(rs.getString("last_name"));
+                user.setPhoneNumber(rs.getString("phone_number"));
+                user.setPassword(rs.getString("password"));
+                user.setEmail(rs.getString("email"));
+                users.add(user);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return users;
+    }
+}
