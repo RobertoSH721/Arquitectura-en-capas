@@ -2,27 +2,32 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public class UserService {
+public class UsuarioService {
 
     private Connection connection;
 
     // Constructor que obtiene la conexión a la base de datos
-    public UserService() {
-        this.connection = DatabaseConnection.getConnection(); // Conexión a la base de datos
+    public UsuarioService() throws SQLException {
+        try {
+            this.connection = DatabaseConnection.getConnection(); // Conexión a la base de datos
+        } catch (SQLException e) {
+            // Manejo de la excepción: podemos lanzar una RuntimeException si no podemos obtener la conexión
+            throw new SQLException("No se pudo establecer la conexión a la base de datos", e);
+        }
     }
 
     // Método para registrar al usuario en la base de datos
-    public boolean registerUser(User user) {
+    public boolean registrarUsuario(Usuario usuario) {
         // Consulta SQL para insertar el usuario en la base de datos
-        String sql = "INSERT INTO users (name, last_name, phone, email, password) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO usuario (nombre, apellidos, telefono, email, password) VALUES (?, ?, ?, ?, ?)";
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             // Asignar los parámetros de la consulta SQL
-            stmt.setString(1, user.getName());
-            stmt.setString(2, user.getLastName());
-            stmt.setString(3, user.getPhoneNumber());
-            stmt.setString(4, user.getEmail());
-            stmt.setString(5, user.getPassword());  // Recuerda encriptar la contraseña en un proyecto real
+            stmt.setString(1, usuario.getNombre());
+            stmt.setString(2, usuario.getApellidos());
+            stmt.setString(3, usuario.getTelefono());
+            stmt.setString(4, usuario.getCorreo());
+            stmt.setString(5, usuario.getPassword());  // Recuerda encriptar la contraseña en un proyecto real
 
             // Ejecutar la consulta de inserción
             int rowsAffected = stmt.executeUpdate();
