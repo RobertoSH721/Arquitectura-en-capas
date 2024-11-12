@@ -14,7 +14,7 @@
 
     <!-- Dependencia para JSTL Standard API -->
     <dependency>
-        <groupId>org.apache.taglibs</groupId>
-        <artifactId>taglibs-standard-api</artifactId>
-        <version>1.2.5</version>
+        <groupId>org.glassfish</groupId>
+        <artifactId>javax.servlet.jsp.jstl</artifactId>
+        <version>1.2.1</version> 
     </dependency>
