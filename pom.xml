@@ -1,0 +1,20 @@
+    <dependency>
+        <groupId>javax.servlet.jsp</groupId>
+        <artifactId>javax.servlet.jsp-api</artifactId>
+        <version>2.3.3</version> <!-- Puedes usar la versión que sea compatible con Tomcat -->
+        <scope>provided</scope> <!-- Esta dependencia es proporcionada por Tomcat en tiempo de ejecución -->
+    </dependency>
+
+    <!-- Dependencia para la implementación de JSTL -->
+    <dependency>
+        <groupId>org.apache.taglibs</groupId>
+        <artifactId>taglibs-standard-impl</artifactId>
+        <version>1.2.5</version> <!-- Usa la versión más reciente disponible -->
+    </dependency>
+
+    <!-- Dependencia para JSTL Standard API -->
+    <dependency>
+        <groupId>org.apache.taglibs</groupId>
+        <artifactId>taglibs-standard-api</artifactId>
+        <version>1.2.5</version>
+    </dependency>
