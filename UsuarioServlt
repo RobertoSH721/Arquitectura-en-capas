@@ -11,6 +11,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.mindrot.jbcrypt.BCrypt;
 
 @WebServlet("/register")
 public class RegisterUserServlet extends HttpServlet {
@@ -32,30 +33,33 @@ public class RegisterUserServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Método POST para procesar los datos del formulario de registro
-        String name = request.getParameter("name");
-        String lastName = request.getParameter("lastName");
-        String phone = request.getParameter("phone");
-        String password = request.getParameter("password");
-        String email = request.getParameter("email");
+    // Método POST para procesar los datos del formulario de registro
+    String nombre = request.getParameter("nombre");
+    String apellidos = request.getParameter("apellidos");
+    String telefono = request.getParameter("telefono");
+    String email = request.getParameter("email");
+    String password = request.getParameter("password");
 
-        // Crear un objeto usuario y configurarlo
-        User user = new User();
-        user.setName(name);
-        user.setLastName(lastName);
-        user.setPhoneNumber(phone);
-        user.setPassword(password);  // Recuerda encriptar la contraseña en un proyecto real
-        user.setEmail(email);
+    // Encriptar la contraseña antes de crear el usuario
+    String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
 
-        // Registrar el usuario
-        boolean isRegistered = userService.registerUser(user);
+    // Crear un objeto usuario y configurarlo
+    Usuario usuario = new Usuario();
+    usuario.setNombre(nombre);
+    usuario.setApellidos(apellidos);
+    usuario.setTelefono(telefono);
+    usuario.setCorreo(email);
+    usuario.setPassword(hashedPassword);  // Usar la contraseña encriptada aquí
 
-        if (isRegistered) {
-            response.sendRedirect("index.jsp");  // Redirigir a la página principal después del registro
-        } else {
-            response.sendRedirect("register.jsp?error=1");  // Redirigir al formulario con un error
-        }
+    // Registrar el usuario
+    boolean isRegistered = usuarioService.registrarUsuario(usuario);
+
+    if (isRegistered) {
+        response.sendRedirect("index.jsp");  // Redirigir a la página principal después del registro
+    } else {
+        response.sendRedirect("registro.jsp?error=1");  // Redirigir al formulario con un error
     }
+  }
 }
 
 
