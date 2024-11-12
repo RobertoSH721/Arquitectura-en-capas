@@ -1,3 +1,7 @@
+package com.gosama.servicio;
+
+import com.gosama.datos.UsuarioDAO;
+import com.gosama.entidades.Usuario;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -39,5 +43,16 @@ public class UsuarioService {
             e.printStackTrace();
             return false;  // Si hay un error, retorna false
         }
+    }
+
+    private UsuarioDAO usuarioDAO;
+
+    public UsuarioService() {
+        this.usuarioDAO = new UsuarioDAO();
+    }
+
+    // Método para verificar las credenciales del usuario
+    public Usuario login(String email, String password) {
+        return usuarioDAO.verificarLogin(email, password);
     }
 }
