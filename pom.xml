@@ -18,3 +18,10 @@
         <artifactId>javax.servlet.jsp.jstl</artifactId>
         <version>1.2.1</version> 
     </dependency>
+
+    <repositories>
+        <repository>
+            <id>central</id>
+            <url>https://repo.maven.apache.org/maven2</url>
+        </repository>
+    </repositories>
