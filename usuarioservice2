@@ -3,17 +3,19 @@ package com.gosama.servicio;
 import com.gosama.datos.UsuarioDAO;
 import com.gosama.entidades.Usuario;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
+mport java.sql.PreparedStatement;
 
 public class UsuarioService {
 
     private Connection connection;
+    private UsuarioDAO usuarioDAO;
 
     // Constructor que obtiene la conexión a la base de datos
     public UsuarioService() throws SQLException {
         try {
             this.connection = DatabaseConnection.getConnection(); // Conexión a la base de datos
+            this.usuarioDAO = new UsuarioDAO(); // Inicializamos el DAO
         } catch (SQLException e) {
             // Manejo de la excepción: podemos lanzar una RuntimeException si no podemos obtener la conexión
             throw new SQLException("No se pudo establecer la conexión a la base de datos", e);
@@ -45,14 +47,10 @@ public class UsuarioService {
         }
     }
 
-    private UsuarioDAO usuarioDAO;
-
-    public UsuarioService() {
-        this.usuarioDAO = new UsuarioDAO();
-    }
-
-    // Método para verificar las credenciales del usuario
+    // Método para verificar las credenciales del usuario durante el login
     public Usuario login(String email, String password) {
+        // Llamamos al método del DAO que se encarga de verificar el login
         return usuarioDAO.verificarLogin(email, password);
     }
 }
+
