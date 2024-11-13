@@ -1,15 +1,11 @@
-package com.gosama.servicio;
-
-import com.gosama.entidades.Producto;
-
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.ArrayList;
+import com.gosama.entidades.Producto;
 
 @WebServlet("/tienda")
 public class TiendaServlet extends HttpServlet {
@@ -34,8 +30,14 @@ public class TiendaServlet extends HttpServlet {
             Producto producto = new Producto(nombreProducto, precioProducto);
             carrito.add(producto);
         } else if ("quitar".equals(accion)) {
-            // Eliminar producto del carrito
-            carrito.removeIf(p -> p.getNombre().equals(nombreProducto));
+            // Eliminar producto del carrito (sin lambda, usando un bucle for)
+            for (int i = 0; i < carrito.size(); i++) {
+                Producto p = carrito.get(i);
+                if (p.getNombre().equals(nombreProducto)) {
+                    carrito.remove(i);
+                    break; // Salir del bucle después de quitar el producto
+                }
+            }
         } else if ("vaciarCarrito".equals(accion)) {
             // Vaciar el carrito
             carrito.clear();
@@ -54,10 +56,5 @@ public class TiendaServlet extends HttpServlet {
         // Redirigir de vuelta a la tienda
         response.sendRedirect("tienda.jsp");
     }
-
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Redirigir al JSP de la tienda
-        request.getRequestDispatcher("/tienda.jsp").forward(request, response);
-    }
 }
+
