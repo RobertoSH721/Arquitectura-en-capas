@@ -14,37 +14,47 @@ import java.util.List;
 @WebServlet("/tienda")
 public class TiendaServlet extends HttpServlet {
 
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Obtener la acción (agregar al carrito, vaciar, etc.)
-        String accion = request.getParameter("accion");
+    @WebServlet("/tienda")
+public class TiendaServlet extends HttpServlet {
 
-        // Obtener el carrito de la sesión
-        List<Producto> carrito = (List<Producto>) request.getSession().getAttribute("carrito");
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // Obtener la sesión
+        HttpSession session = request.getSession();
+
+        // Obtener el carrito de la sesión (si no existe, lo crea)
+        List<Producto> carrito = (List<Producto>) session.getAttribute("carrito");
         if (carrito == null) {
             carrito = new ArrayList<>();
-            request.getSession().setAttribute("carrito", carrito);
+            session.setAttribute("carrito", carrito);
         }
 
-        if ("agregar".equals(accion)) {
-            // Obtener el nombre y el precio del producto
-            String nombreProducto = request.getParameter("nombreProducto");
-            double precioProducto = Double.parseDouble(request.getParameter("precioProducto"));
+        String accion = request.getParameter("accion");
+        String nombreProducto = request.getParameter("nombreProducto");
+        double precioProducto = Double.parseDouble(request.getParameter("precioProducto"));
 
-            // Crear el producto y agregarlo al carrito
+        if ("agregar".equals(accion)) {
+            // Agregar producto al carrito
             Producto producto = new Producto(nombreProducto, precioProducto);
             carrito.add(producto);
-
-            // Actualizar el carrito en la sesión
-            request.getSession().setAttribute("carrito", carrito);
-
+        } else if ("quitar".equals(accion)) {
+            // Eliminar producto del carrito
+            carrito.removeIf(p -> p.getNombre().equals(nombreProducto));
         } else if ("vaciarCarrito".equals(accion)) {
             // Vaciar el carrito
             carrito.clear();
-            request.getSession().setAttribute("carrito", carrito);
+        } else if ("pagar".equals(accion)) {
+            // Procesar el pago (esto lo puedes dejar para más adelante)
+            // Aquí iría tu lógica de pago, como redirigir a otra página de pago.
         }
 
-        // Redirigir a la tienda para actualizar la vista
+        // Calcular el total
+        double total = 0.0;
+        for (Producto p : carrito) {
+            total += p.getPrecio();
+        }
+        session.setAttribute("total", total);
+
+        // Redirigir de vuelta a la tienda
         response.sendRedirect("tienda.jsp");
     }
 
