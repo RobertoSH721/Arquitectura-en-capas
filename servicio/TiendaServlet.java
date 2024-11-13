@@ -22,8 +22,13 @@ public class TiendaServlet extends HttpServlet {
         }
 
         String accion = request.getParameter("accion");
+
+        // Verificar si los parámetros para el producto existen (solo cuando se agregan o quitan productos)
         String nombreProducto = request.getParameter("nombreProducto");
-        double precioProducto = Double.parseDouble(request.getParameter("precioProducto"));
+        double precioProducto = 0.0;
+        if (request.getParameter("precioProducto") != null) {
+            precioProducto = Double.parseDouble(request.getParameter("precioProducto"));
+        }
 
         if ("agregar".equals(accion)) {
             // Agregar producto al carrito
@@ -57,4 +62,5 @@ public class TiendaServlet extends HttpServlet {
         response.sendRedirect("tienda.jsp");
     }
 }
+
 
