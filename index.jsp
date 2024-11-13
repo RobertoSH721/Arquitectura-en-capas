@@ -37,9 +37,10 @@
 <body>
     
     <div class="navbar">
-        <a href="#">Informacion</a>
+        <a href="informacion.jsp">Informacion</a>
         <a href="login.jsp">Inicio de Sesion</a>
         <a href="registro.jsp">Registrarse</a>
+        <a href="tienda.jsp">Tienda</a>
         <a href="#">Contactos</a>
     </div>
     <div>
