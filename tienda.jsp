@@ -124,9 +124,9 @@
             <button type="submit" name="accion" value="vaciarCarrito" class="btn">Vaciar carrito</button>
         </form>
 
-        <!-- Botón para pagar -->
-        <form action="tienda" method="post">
-            <button type="submit" name="accion" value="pagar" class="btn">Pagar</button>
+        <!-- Botón para ir a la página de pago (redirige a pago.jsp) -->
+        <form action="pago.jsp" method="get">
+            <button type="submit" class="btn">Pagar</button>
         </form>
         
         <%
@@ -140,3 +140,4 @@
 
 </body>
 </html>
+
