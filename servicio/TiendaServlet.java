@@ -1,4 +1,4 @@
-package com.gosama.servicio
+package com.gosama.servicio;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
