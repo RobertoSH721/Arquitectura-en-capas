@@ -14,9 +14,6 @@ import java.util.List;
 @WebServlet("/tienda")
 public class TiendaServlet extends HttpServlet {
 
-    @WebServlet("/tienda")
-public class TiendaServlet extends HttpServlet {
-
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Obtener la sesión
         HttpSession session = request.getSession();
