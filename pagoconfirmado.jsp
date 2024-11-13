@@ -32,5 +32,8 @@
     <h4><%= session.getAttribute("mensajePago") %></h4>
 
     <p>Gracias por tu compra. ¡Tu pedido está en proceso!</p>
+
+    !-- Enlace para volver a la tienda -->
+    <a href="tienda.jsp" class="btn">Volver a la tienda</a>
 </body>
 </html>
