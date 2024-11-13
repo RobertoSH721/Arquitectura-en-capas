@@ -52,9 +52,9 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
         request.getSession().setAttribute("usuario", usuario);  // Guardar al usuario en la sesión
         response.sendRedirect("index.jsp");  // Redirigir a la página principal
     } else {
-        // Si las credenciales son incorrectas, redirigir al formulario de login con un error
-        request.getSession().setAttribute("LoginError","Correo y/o password incorrectos");
-        response.sendRedirect("login.jsp?error=1");  // Error de login
+        // Si las credenciales son incorrectas, redirigir al formulario de login con un mensaje de error
+        request.setAttribute("error", "Correo y/o contraseña incorrectos");
+        request.getRequestDispatcher("/login.jsp").forward(request, response);  // Redirigir al formulario de login
     }
 }
-}
+
