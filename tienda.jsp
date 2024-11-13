@@ -1,23 +1,20 @@
-<%@ page import="com.gosama.entidades.Producto" %>
+<%@ page import="javax.servlet.http.HttpSession" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.ArrayList" %>
-<%@ page import="javax.servlet.http.HttpSession" %>
+<%@ page import="com.gosama.entidades.Producto" %>
 
 <%
-    // Obtiene la sesión del usuario
-    HttpSession session = request.getSession();
-
     // Simula productos (en un caso real, los productos se sacarían de la base de datos)
     List<Producto> productos = new ArrayList<>();
     productos.add(new Producto("Producto 1", 10.0));
-    productos.add(new Producto("Producto 2", 35.0));
-    productos.add(new Producto("Producto 3", 70.0));
-    productos.add(new Producto("Producto 4", 50.0));
+    productos.add(new Producto("Producto 2", 20.0));
+    productos.add(new Producto("Producto 3", 30.0));
+    productos.add(new Producto("Producto 4", 40.0));
 
     // Guarda los productos en la solicitud para que estén disponibles en el JSP
     request.setAttribute("productos", productos);
 
-    // Obtiene el carrito de la sesión (si no existe, lo crea)
+    // Obtener el carrito de la sesión (si no existe, lo crea)
     List<Producto> carrito = (List<Producto>) session.getAttribute("carrito");
     if (carrito == null) {
         carrito = new ArrayList<>();
