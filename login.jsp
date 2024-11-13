@@ -63,8 +63,9 @@
         <h2>Login Gosama</h2>
         
         <!-- Si hay un error, mostrar un mensaje -->
-        <c:if test="${param.error == 1}">
-            <div class="error">Usuario o contraseña incorrectos.</div>
+        <c:if test="${not empty sessionScope.loginError}">
+            <div class="error">${sessionScope.loginError}</div>
+            <c:set var="loginError" value="" />
         </c:if>
         
         <form action="login" method="POST">
