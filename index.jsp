@@ -27,6 +27,11 @@
          background-color: black; 
          color: white; 
        }
+        .contenedor { 
+        display: flex; 
+        justify-content: center; 
+        align-items: center; height: 
+         }
     </style>
 </head>
 <body>
@@ -38,7 +43,7 @@
         <a href="#">Contactos</a>
     </div>
     <div>
-        <h1 class="textc">GOSAMA</h1>
+        <<image src="imagenes/gosama.png" width="200" heigth="200">
     </div>
 
 </body>
