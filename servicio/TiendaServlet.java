@@ -23,32 +23,33 @@ public class TiendaServlet extends HttpServlet {
 
         String accion = request.getParameter("accion");
 
-        // Verificar si los parámetros para el producto existen (solo cuando se agregan o quitan productos)
-        String nombreProducto = request.getParameter("nombreProducto");
-        double precioProducto = 0.0;
-        if (request.getParameter("precioProducto") != null) {
-            precioProducto = Double.parseDouble(request.getParameter("precioProducto"));
-        }
+        // Solo obtenemos los parámetros cuando no se va a vaciar el carrito
+        if (!"vaciarCarrito".equals(accion)) {
+            String nombreProducto = request.getParameter("nombreProducto");
+            double precioProducto = 0.0;
 
-        if ("agregar".equals(accion)) {
-            // Agregar producto al carrito
-            Producto producto = new Producto(nombreProducto, precioProducto);
-            carrito.add(producto);
-        } else if ("quitar".equals(accion)) {
-            // Eliminar producto del carrito (sin lambda, usando un bucle for)
-            for (int i = 0; i < carrito.size(); i++) {
-                Producto p = carrito.get(i);
-                if (p.getNombre().equals(nombreProducto)) {
-                    carrito.remove(i);
-                    break; // Salir del bucle después de quitar el producto
+            // Asegurarnos de que el parámetro precioProducto esté presente
+            if (request.getParameter("precioProducto") != null) {
+                precioProducto = Double.parseDouble(request.getParameter("precioProducto"));
+            }
+
+            if ("agregar".equals(accion)) {
+                // Agregar producto al carrito
+                Producto producto = new Producto(nombreProducto, precioProducto);
+                carrito.add(producto);
+            } else if ("quitar".equals(accion)) {
+                // Eliminar producto del carrito (sin lambda, usando un bucle for)
+                for (int i = 0; i < carrito.size(); i++) {
+                    Producto p = carrito.get(i);
+                    if (p.getNombre().equals(nombreProducto)) {
+                        carrito.remove(i);
+                        break; // Salir del bucle después de quitar el producto
+                    }
                 }
             }
-        } else if ("vaciarCarrito".equals(accion)) {
-            // Vaciar el carrito
+        } else {
+            // Vaciar el carrito sin procesar los productos
             carrito.clear();
-        } else if ("pagar".equals(accion)) {
-            // Procesar el pago (esto lo puedes dejar para más adelante)
-            // Aquí iría tu lógica de pago, como redirigir a otra página de pago.
         }
 
         // Calcular el total
@@ -62,5 +63,6 @@ public class TiendaServlet extends HttpServlet {
         response.sendRedirect("tienda.jsp");
     }
 }
+
 
 
