@@ -56,12 +56,19 @@
             color: red;
             text-align: center;
         }
+        .contenedor { 
+        display: flex; 
+        justify-content: center; 
+        align-items: center; 
+        }
     </style>
 </head>
 <body>
     <div class="login-container">
         <h2>Login Gosama</h2>
-        
+        <div>
+            <image src="imagenes/gosama.png" width="100" heigth="100">
+        </div>
         <!-- Si hay un error, mostrar un mensaje -->
         <c:if test="${not empty sessionScope.loginError}">
             <div class="error">${sessionScope.loginError}</div>
