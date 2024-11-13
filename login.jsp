@@ -68,13 +68,7 @@
         <h2>Login Gosama</h2>
         <div>
             <image src="imagenes/gosama.png" width="100" heigth="100">
-        </div>
-        <!-- Si hay un error, mostrar un mensaje -->
-        <c:if test="${not empty sessionScope.loginError}">
-            <div class="error">${sessionScope.loginError}</div>
-            <c:set var="loginError" value="" />
-        </c:if>
-        
+        </div>    
         <form action="login" method="POST">
             <label for="email">Email</label>
             <input type="text" id="email" name="email" required>
@@ -84,6 +78,11 @@
             
             <input type="submit" value="Iniciar sesión">
         </form>
+        <c:if test="${not empty error}">
+        <div style="color: red;">
+            <p>${error}</p>
+        </div>
+    </c:if>
     </div>
 </body>
 </html>
